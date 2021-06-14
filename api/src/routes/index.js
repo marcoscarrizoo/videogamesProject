@@ -30,6 +30,7 @@ let games = []
             id: e.id,
             name: e.name,
             img: e.background_image,
+            price: e.ratings_count,
             genres: e.genres.map(e => e.name)
         })
       return res.json(info)
@@ -48,14 +49,14 @@ let games = []
 router.get('/videogame', async(req,res) => {
   let game = []
   const {name} = req.query
-  console.log(name)
-  if(name) { //hasta aca 
+    if(name) { //hasta aca 
       try{
           for(var i = 1 ; i <=5 ; i++) {
               var api = await axios.get('https://api.rawg.io/api/games?key=9e9ca1c80d974269a87013f79911dcee&page=' + i)
           game = game.concat(api.data.results).map(e => e.name)
-          } let videogame = game.filter(e => e.name === name)
+          let videogame = game.filter(e => e.name === name)
           return res.json(videogame)
+          } 
       }catch {
           return res.send('no hay videojuego')
       }
@@ -72,9 +73,17 @@ router.get('/detail/:id', async (req, res) => {
   
       const game = await axios.get(`https://api.rawg.io/api/games/${id}?key=9e9ca1c80d974269a87013f79911dcee`)
       detail = detail.concat(game.data)
-    detail.map
+      const info = detail.map(e => 
+        gamesDetail = {
+            name : e.name,
+            image: e.background_image,
+            description: e.description,
+            released: e.released,
+            rating: e.rating,
+            platforms: e.parent_platforms.map(e => e.platform.name)
+        })
       
-    return res.json(detail)
+    return res.json(info)
         
 
 })

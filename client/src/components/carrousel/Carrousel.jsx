@@ -17,6 +17,7 @@ const tutorialSteps = [
     
     imgPath:
       'https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg',
+    
   },
   {
     

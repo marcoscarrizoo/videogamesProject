@@ -1,5 +1,6 @@
-import './cards.css' 
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
 import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -10,7 +11,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Box, Grid } from '@material-ui/core';
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
+import {getGameDetail} from '../../redux/actions/actions'
+import './videogames.css'
 
 const useStyles = makeStyles({
   root: {
@@ -21,6 +26,7 @@ const useStyles = makeStyles({
     boxShadow: '0 0 30px',
     background: '#141A32'
   },
+ 
   media: {
     height: 200,
   },
@@ -30,10 +36,18 @@ const useStyles = makeStyles({
 });
 
 
-const Cards = ({id,name,image,genres}) => {
+
+const VideoGames = ({id,name,image,genres, price}) => {
   const classes = useStyles();
+  const dispatch = useDispatch()
+
+  function videogameDetail() {
+    dispatch(getGameDetail())
+    }
+
     return (
-      
+      <div>
+          
       <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
@@ -48,10 +62,13 @@ const Cards = ({id,name,image,genres}) => {
           <Typography variant="body2" className={classes.text} component="p">
            generos: {genres}
           </Typography>
+          <Typography variant="h6" className={classes.text} component="p">
+           Precio: ${price}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Link to='/detail'>
+        <Link to={'/detail/' + id}>
           <Button size="small" color="secondary">
             detalle
           </Button>
@@ -59,10 +76,14 @@ const Cards = ({id,name,image,genres}) => {
         <Button size="small" color="primary">
           comprar
         </Button>
+        <IconButton aria-label="add to favorites">
+            <FavoriteIcon color='secondary'/>
+          </IconButton>
       </CardActions>
     </Card>
     
+    </div>
     )
 }
 
-export default Cards
+export default VideoGames

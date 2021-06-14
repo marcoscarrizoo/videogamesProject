@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
+import {ListSubheader, FormControl, Select, InputLabel, Button} from '@material-ui/core'
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -15,8 +17,17 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { red } from '@material-ui/core/colors';
+
+
+import FavoriteIcon from "@material-ui/icons/Favorite";
+
+//expandir...
 
 const useStyles = makeStyles((theme) => ({
+  text:{
+  color: '#fafafa',
+  },
   grow: {
     flexGrow: 1,
     background: '#141A32',
@@ -81,6 +92,13 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    
+  },
+  
+  
 }));
 
 export default function PrimarySearchAppBar() {
@@ -119,8 +137,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
     </Menu>
   );
 
@@ -178,7 +196,7 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-           VIDEOGAMES
+           VIDEOJUEGOS
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -193,11 +211,41 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+
+          <div className={classes.form2}>
+        <Link to='/'> 
+          <Button className={classes.text}>INICIO</Button>
+        </Link>
+          <IconButton aria-label="add to favorites">
+        <Link to='/favorites'>
+        <Button className={classes.text}>favoritos</Button>
+        </Link>
+          </IconButton>
+          <IconButton>
+        <Link to='/favorites'>
+        <Button className={classes.text}>DESTACADOS</Button>
+        </Link>
+          </IconButton>
+          </div>
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+         <FormControl className={classes.formControl}>
+        <InputLabel className={classes.text} htmlFor="grouped-native-select">Categorias</InputLabel>
+        <Select native defaultValue="" id="grouped-native-select">
+          <option aria-label="None" value="" />
+          <optgroup label="Categorias">
+            <option value={1}>categories</option>
             
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+          </optgroup>
+        </Select>
+      </FormControl>
+            
+          
+
+      
+           <IconButton color="inherit">
+              <Badge color="secondary">
               <ShoppingCartIcon/>
               </Badge>
             </IconButton>
