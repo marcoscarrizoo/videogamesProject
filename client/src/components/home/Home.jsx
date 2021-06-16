@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getVideogames } from "../../redux/actions/actions";
+import { getVideogames } from "../../redux/reducer/gamesDuck";
 import VideoGames from "../videogames/VideoGames";
 import { makeStyles } from "@material-ui/core/styles";
 import "./home.css";
@@ -10,7 +10,7 @@ import NavBar from "../navBar/NavBar";
 function Home() {
   //const classes = useStyles()
   const dispatch = useDispatch();
-  const games = useSelector((store) => store.videogames);
+  const games = useSelector((store) => store.videogames.videogames);
 
   useEffect(() => {
     dispatch(getVideogames());

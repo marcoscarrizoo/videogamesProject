@@ -7,7 +7,8 @@ import GamesDetail from './components/videogames/GamesDetail';
 
 import { ThemeProvider } from '@material-ui/core/styles'
 import theme from './themeConfig.js'
-
+import SignIn from './components/singin_singup/SignIn';
+import SignUp from './components/singin_singup/SignUp'
 
 function App() {
 
@@ -21,7 +22,9 @@ function App() {
           <Route exact path='/' component={Footer} />
         </div>
 
-        <Route exact path='/detail/:id' component={GamesDetail} />
+        <Route path='/detail/:id' component={GamesDetail} />
+        <Route exact path='/signIn' component={SignIn}/>
+        <Route exact path='/signUp' component={SignUp}/>
       </div>
 
 

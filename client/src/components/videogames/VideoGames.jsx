@@ -14,7 +14,7 @@ import { Box, Grid } from '@material-ui/core';
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
-import {getGameDetail} from '../../redux/actions/actions'
+import {getGameDetail, addFavorites} from '../../redux/reducer/gamesDuck'
 import './videogames.css'
 
 const useStyles = makeStyles({
@@ -45,6 +45,10 @@ const VideoGames = ({id,name,image,genres, price}) => {
     dispatch(getGameDetail())
     }
 
+    function addFavorite() {
+      console.log('click')
+      dispatch(addFavorites(id))
+    }
     return (
       <div>
           
@@ -55,15 +59,17 @@ const VideoGames = ({id,name,image,genres, price}) => {
           image={image}
           title="Contemplative Reptile"
         />
+      
         <CardContent>
           <Typography className={classes.text} gutterBottom variant="h5" component="h2">
             {name}
           </Typography>
+          
           <Typography variant="body2" className={classes.text} component="p">
            generos: {genres}
           </Typography>
           <Typography variant="h6" className={classes.text} component="p">
-           Precio: ${price}
+            Precio: ${price}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -77,7 +83,7 @@ const VideoGames = ({id,name,image,genres, price}) => {
           comprar
         </Button>
         <IconButton aria-label="add to favorites">
-            <FavoriteIcon color='secondary'/>
+            <FavoriteIcon onClick={addFavorite} color='secondary'/>
           </IconButton>
       </CardActions>
     </Card>

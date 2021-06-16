@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {logOutAction} from '../../redux/reducer/userDuck'
+import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2'
+
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -105,6 +109,7 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const dispatch = useDispatch()
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -125,6 +130,14 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  function logOutWithGoogle() {
+    dispatch(logOutAction())
+    Swal.fire(
+      'Esperamos verte pronto :D',
+        2000,
+      'success'
+    )
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -138,7 +151,10 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+     <Link to='/signIn'>
+     <MenuItem onClick={handleMenuClose}>Iniciar sesion</MenuItem>
+     </Link> 
+     <MenuItem onClick={logOutWithGoogle}>cerrar sesion</MenuItem>
     </Menu>
   );
 
@@ -162,8 +178,8 @@ export default function PrimarySearchAppBar() {
         <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
+        <IconButton color="inherit">
+          <Badge  color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -203,7 +219,7 @@ export default function PrimarySearchAppBar() {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="Buscar..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,

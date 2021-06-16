@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getGameDetail, empty } from "../../redux/actions/actions";
+import { getGameDetail, empty } from "../../redux/reducer/gamesDuck";
 import "./gamesDetail.css";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -51,7 +51,7 @@ const GamesDetail = () => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
-  const detail = useSelector((store) => store.videogamedetail);
+  const detail = useSelector((store) => store.videogames.videogamedetail);
 
   let renderDetail;
   if (detail && detail.length) {

@@ -5,7 +5,11 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux' // le da la posibilidad a los componentes de conectarse a la store
-import {store} from './redux/store/store'
+
+
+import generatorStore from './redux/store/store'
+
+let store = generatorStore()
 
 ReactDOM.render(
   <Provider store={store}> 
