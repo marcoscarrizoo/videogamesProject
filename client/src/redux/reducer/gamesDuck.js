@@ -3,6 +3,7 @@
 export const GET_VIDEOGAMES = 'GET_VIDEOGAMES'
 export const GET_VIDEOGAME_DETAIL = 'GET_VIDEOGAME_DETAIL'
 export const ADD_FAVORITES = 'ADD_FAVORITES'
+export const GENRES= 'GENRES'
 
 //states
 const initialState = {
@@ -10,7 +11,8 @@ const initialState = {
     videogamedetail: [],
     genres: [],
     fetching: false, //maneja el estado loading(si cargan los videojuegos)
-    favorites: []
+    favorites: [],
+    
 }
 
 //reducer
@@ -30,6 +32,11 @@ export default function reducer(state = initialState, action) {
         return {
             ...state,
             videogamedetail: action.payload
+        }
+        case GENRES: 
+        return {
+            ...state,
+            genres: action.payload
         }
         
            default:
@@ -66,9 +73,25 @@ export function empty() {
     }
 }
 
-export function addFavorites(data) {
-    return {
+export let addFavorites = () => (dispatch, getState) => {
+    let {videogames, favorites} = getState().videogames
+    
+
+    let char = videogames.shift()
+    favorites.push(char)
+    dispatch({
         type: ADD_FAVORITES,
-        payload: data
+        payload: {videogames: [...videogames],favorites: [...favorites] }
+    })
+}
+
+export function genres() {
+    return async function(dispatch) {
+        const res = await fetch('http://localhost:3001/genres')
+        const data = await res.json()
+        dispatch({
+            type: GENRES,
+            payload: data
+        })
     }
 }

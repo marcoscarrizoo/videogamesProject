@@ -56,3 +56,9 @@ export function singOutGoogle() {
 //     }
 //   })
 // }
+
+let db = firebase.firestore()
+
+db.collection('favs').add({
+  first: 'matcos'
+})

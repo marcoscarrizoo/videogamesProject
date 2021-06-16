@@ -9,6 +9,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import theme from './themeConfig.js'
 import SignIn from './components/singin_singup/SignIn';
 import SignUp from './components/singin_singup/SignUp'
+import Pagination from './components/pagination/Pagination';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <div className='home'>
           <Route exact path='/' component={Home} />
         </div>
+        <Route exact path='/pagination' component={Pagination}/>
         <div className='footer'>
           <Route exact path='/' component={Footer} />
         </div>

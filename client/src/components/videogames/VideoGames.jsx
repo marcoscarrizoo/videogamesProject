@@ -18,6 +18,7 @@ import {getGameDetail, addFavorites} from '../../redux/reducer/gamesDuck'
 import './videogames.css'
 
 const useStyles = makeStyles({
+ 
   root: {
     
     maxWidth: 345,
@@ -50,7 +51,7 @@ const VideoGames = ({id,name,image,genres, price}) => {
       dispatch(addFavorites(id))
     }
     return (
-      <div>
+      <div className={classes.main}>
           
       <Card className={classes.root}>
       <CardActionArea>

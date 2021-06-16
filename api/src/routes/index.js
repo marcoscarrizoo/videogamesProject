@@ -4,8 +4,8 @@ const { Router } = require('express');
 const fetch = require('node-fetch')
 const {default:axios} = require('axios')
 //const {v4:uuidv4} = require('uuid')
-//const {conn} = require('../db')
-//const {Pokemon,Type} = conn.models
+const {conn} = require('../db')
+const {Genres} = conn.models
 
 
 const router = Router();
@@ -92,7 +92,20 @@ router.get('/detail/:id', async (req, res) => {
 //GET /genres:
 //Obtener todos los tipos de géneros de videojuegos posibles
 //En una primera instancia deberán traerlos desde rawg y guardarlos en su propia base de datos y luego ya utilizarlos desde allí
-
+router.get('/genres', (req, res) => {
+    
+    fetch('https://api.rawg.io/api/genres?key=9e9ca1c80d974269a87013f79911dcee')
+    .then(res => res.json())
+    .then(data => {
+        let info = data.results
+        let genres = {
+            name: info.map(e => e.name),
+            
+        }
+        res.send(genres)
+        
+    })
+})
 
 
 //POST /videogame:

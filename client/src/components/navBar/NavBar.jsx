@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
 import {logOutAction} from '../../redux/reducer/userDuck'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2'
 
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -109,10 +109,14 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const dispatch = useDispatch()
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const dispatch = useDispatch()
+  const [videogame, setVideogame] = useState('')
+  const genres = useSelector(store => store.videogames.genres)
+  console.log(genres)
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -130,6 +134,8 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+
   function logOutWithGoogle() {
     dispatch(logOutAction())
     Swal.fire(
@@ -137,6 +143,10 @@ export default function PrimarySearchAppBar() {
         2000,
       'success'
     )
+  }
+
+  function handleChange(e) {
+  setVideogame(e.target.value )
   }
 
   const menuId = 'primary-search-account-menu';
@@ -150,7 +160,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+    <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
      <Link to='/signIn'>
      <MenuItem onClick={handleMenuClose}>Iniciar sesion</MenuItem>
      </Link> 
@@ -211,24 +221,28 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography className={classes.title} variant="h6" noWrap>
            VIDEOJUEGOS
           </Typography>
+
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+            <SearchIcon/>  
             </div>
+
+            
             <InputBase
               placeholder="Buscar..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
+              type="text"
+              value={videogame}
+              onChange={(event) => handleChange(event)}
+              classes={{root: classes.inputRoot,input: classes.inputInput,}}
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
 
-          <div className={classes.form2}>
+
         <Link to='/'> 
           <Button className={classes.text}>INICIO</Button>
         </Link>
@@ -238,11 +252,11 @@ export default function PrimarySearchAppBar() {
         </Link>
           </IconButton>
           <IconButton>
-        <Link to='/favorites'>
+        <Link to='/destacados'>
         <Button className={classes.text}>DESTACADOS</Button>
         </Link>
           </IconButton>
-          </div>
+          
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

@@ -2,6 +2,7 @@ import React from 'react';
 import {doGoogleLoginAction, logOutAction} from '../../redux/reducer/userDuck'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import './sin.css'
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -40,15 +41,19 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(1, 0, 1),
   },
+  bod: {
+    background: '#080F28'
+  },
+  
 }));
 
 export default function SignIn() {
@@ -78,6 +83,7 @@ export default function SignIn() {
     
   return (
     !loggedIn ? 
+    <div>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -114,6 +120,7 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="recordame"
           />
+          <div className={classes.button}>
            <Button
             fullWidth
             variant="contained"
@@ -132,6 +139,7 @@ export default function SignIn() {
           >
            Ingresar
           </Button>
+          </div>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -149,7 +157,7 @@ export default function SignIn() {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container> : 
+    </Container> </div> : 
    Swal.fire(
     'Ya has iniciado sesion :D',
      2000,

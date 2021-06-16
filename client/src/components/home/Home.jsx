@@ -11,6 +11,7 @@ function Home() {
   //const classes = useStyles()
   const dispatch = useDispatch();
   const games = useSelector((store) => store.videogames.videogames);
+  
 
   useEffect(() => {
     dispatch(getVideogames());
