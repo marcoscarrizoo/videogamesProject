@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#141A32',
     boxShadow: '0 0 30px',
     
+    
   },
   text: {
     color: '#fafafa'
@@ -32,19 +33,9 @@ const useStyles = makeStyles((theme) => ({
     height: 0,
     paddingTop: "56.25%", // 16:9
   },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+
+ 
+  
 }));
 
 const GamesDetail = () => {
@@ -56,10 +47,13 @@ const GamesDetail = () => {
   let renderDetail;
   if (detail && detail.length) {
     renderDetail = (
+
       <Card className={classes.root}>
+        
         <CardHeader className={classes.text} title={detail[0].name} />
         <CardMedia className={classes.media} image={detail[0].image} />
-        <CardContent>
+        
+        
           <Typography className={classes.text} variant="body2" color="textSecondary" component="p">
             {detail[0].description}
           </Typography>
@@ -72,13 +66,13 @@ const GamesDetail = () => {
           <Typography className={classes.text} variant="h6" color="textSecondary" component="p">
             {"Fecha de lanzamiento: " + detail[0].released}
           </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
+        
+        
           <IconButton aria-label="add to favorites">
             <FavoriteIcon color='secondary'/>
           </IconButton>
           <Button className={classes.text} variant="outlined">COMPRAR</Button>
-        </CardActions>
+        
       </Card>
     );
   } else {

@@ -33,7 +33,8 @@ const useStyles = makeStyles({
   },
   text: {
     color: '#fafafa'
-  }
+  },
+  
 });
 
 
@@ -51,7 +52,7 @@ const VideoGames = ({id,name,image,genres, price}) => {
       dispatch(addFavorites(id))
     }
     return (
-      <div className={classes.main}>
+      <div className={classes.conteiner}>
           
       <Card className={classes.root}>
       <CardActionArea>
@@ -88,6 +89,7 @@ const VideoGames = ({id,name,image,genres, price}) => {
           </IconButton>
       </CardActions>
     </Card>
+    
     
     </div>
     )

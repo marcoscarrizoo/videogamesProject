@@ -4,7 +4,7 @@ import '../../app.css'
 const Footer = () => {
     return (
         <div>
-            holi
+            VIDEOJUEGOS
         </div>
     )
 }
