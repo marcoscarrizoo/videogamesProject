@@ -13,5 +13,5 @@ Con la pagina web podras ser capaz de...
 
 #### Tecnologías usadas:
 - Front End = [ReactJS, Redux, CSS, MateralUI]
-- Back End = [PostgreSQL, ExpressJS, Sequelize ORM]
+- Back End = [PostgreSQL, ExpressJS, Sequelize ORM, Firebase]
 
