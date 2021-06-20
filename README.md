@@ -12,6 +12,6 @@ Con la pagina web podras ser capaz de...
  -Darle uso tanto en PC como en dispositivos Móviles
 
 #### Tecnologías usadas:
-*Front End = [ReactJS, Redux, CSS, MateralUI]
-*Back End = [PostgreSQL, ExpressJS, Sequelize ORM]
+-Front End = [ReactJS, Redux, CSS, MateralUI]
+-Back End = [PostgreSQL, ExpressJS, Sequelize ORM]
 
