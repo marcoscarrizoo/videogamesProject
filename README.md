@@ -1,4 +1,4 @@
-# videogamesProyect
+# videogamesProject
 
 ## Objetivos del Proyecto
 
