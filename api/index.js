@@ -19,10 +19,13 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+// const back = process.env.API || "http://localhost:3001";
+// const front = process.env.FRONT || "http://localhost:3000"
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+  server.listen(process.env.PORT ,async () => {
+    console.log(`listing at PORT ${process.env.PORT}`); // eslint-disable-line no-console
   });
 });
+

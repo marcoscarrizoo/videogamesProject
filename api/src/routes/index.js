@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const {default:axios} = require('axios')
 //const {v4:uuidv4} = require('uuid')
 const {conn} = require('../db')
-const {Genres} = conn.models
+const {Genres, Favorites, User} = conn.models
 
 
 const router = Router();
@@ -46,22 +46,47 @@ let games = []
 //Obtener un listado de las primeros 15 videojuegos que contengan la palabra ingresada como query parameter
 //Si no existe ningún videojuego mostrar un mensaje adecuado
 
-router.get('/videogame', async(req,res) => {
+router.get('/search', async(req,res) => {
   let game = []
   const {name} = req.query
     if(name) { //hasta aca 
       try{
           for(var i = 1 ; i <=5 ; i++) {
-              var api = await axios.get('https://api.rawg.io/api/games?key=9e9ca1c80d974269a87013f79911dcee&page=' + i)
-          game = game.concat(api.data.results).map(e => e.name)
-          let videogame = game.filter(e => e.name === name)
-          return res.json(videogame)
+            var api = await axios.get('https://api.rawg.io/api/games?key=9e9ca1c80d974269a87013f79911dcee&page=' + i)
+            game= game.concat(api.data.results).map(e => 
+            videogames = {
+            id: e.id,
+            name: e.name,
+            img: e.background_image,
+            price: e.ratings_count,
+            genres: e.genres.map(e => e.name)
+            }    
+                )
+            let data = game.filter(e => e.name === name)
+            return res.json(data)
           } 
-      }catch {
-          return res.send('no hay videojuego')
+      }catch(error) {
+          return res.json(error,'no hay videojuego')
       }
   } 
 })
+
+// router.get('/search', async(req,res) => {
+//     let game = []
+//     const {name} = req.query
+//       if(name) { //hasta aca 
+//         try{
+//             for(var i = 1 ; i <=5 ; i++) {
+//               var api = await axios.get('https://api.rawg.io/api/games?key=9e9ca1c80d974269a87013f79911dcee&page=' + i)
+//               game= game.concat(api.data.results).map(e => e.name)
+//               let videogame = game.filter(e => e.name === name)
+//               return res.send(videogame)
+//             } 
+//         }catch(error) {
+//             return res.json(error,'no hay videojuego')
+//         }
+//     } 
+//   })
 
 //GET /videogame/{idVideogame}:
 //Obtener el detalle de un videojuego en particular
@@ -97,17 +122,19 @@ router.get('/genres', (req, res) => {
     fetch('https://api.rawg.io/api/genres?key=9e9ca1c80d974269a87013f79911dcee')
     .then(res => res.json())
     .then(data => {
-        let info = data.results
-        let genres = {
-            name: info.map(e => e.name),
-            
-        }
-        res.send(genres)
+       let info = data.results.map(e => e.name)
+      
         
+       res.send(info)
+    }).catch(e => {
+        res.send(e)
     })
 })
 
+router.post('/favorites', (req, res) => {
+    let {id} = req.params
 
+})
 //POST /videogame:
 //Recibe los datos recolectados desde el formulario controlado de la ruta de creación de videojuego por body//
 //Crea un videojuego en la base de datos

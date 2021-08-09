@@ -1,8 +1,9 @@
-import React from 'react';
-import {doGoogleLoginAction, logOutAction} from '../../redux/reducer/userDuck'
+import React, {useState} from 'react';
+import {doGoogleLoginAction, logOutAction} from '../../../redux/reducer/userDuck'
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import './sin.css'
+import { auth } from '../../../firebase';
+import useStyles from './signinStyles'
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Container from '@material-ui/core/Container';
 import Swal from 'sweetalert2'
 
@@ -32,31 +33,13 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(1, 0, 1),
-  },
-  bod: {
-    background: '#080F28'
-  },
-  
-}));
 
 export default function SignIn() {
+  const [email, setEmail ] = useState('')
+  const [pass, setPass] = useState('')
+  const [msgError, setMsgError] = useState(null)
+  const [user, setUser] = useState(null)
+
   const classes = useStyles();
   const loggedIn = useSelector(store=> store.user.loggedIn)
   const fetching = useSelector(store=> store.user.fetching)
@@ -67,9 +50,13 @@ export default function SignIn() {
     dispatch(doGoogleLoginAction())
     history.push('/')
     Swal.fire(
-      'Bienvenido',
-        2000,
-      'success'
+      {
+        text:'Bienvenido',
+        icon: 'success', 
+        width:'20rem', 
+        timer: '8000', 
+        showConfirmButton: false 
+      }
     )
   }
 
@@ -77,9 +64,37 @@ export default function SignIn() {
     dispatch(logOutAction())
   }
   
+  const loginUser = (e) => {
+    e.preventDefault()
+    auth.signInWithEmailAndPassword(email, pass)
+    .then(res => history.push('/'), Swal.fire(
+      {
+        text:'Bienvenido',
+        icon: 'success', 
+        width:'20rem', 
+        timer: '3000', 
+        showConfirmButton: false 
+      }
+    ))
+    
+    
+    .catch(error => {
+      if(error.code === 'auth/wrong-password') {
+        setMsgError('password incorrecta')
+    }
+    if(error.code === 'auth/user-not-found') {
+        setMsgError('usuario incorrecto')
+    }
+    if(error.code === 'auth/user-not-found' && 'auth/wrong-password') {
+        setMsgError('usuario y password incorrectas')
+    }
+    })
   
+  }
   
- 
+ const restorePass = () => {
+   auth.sendPasswordResetEmail()
+ }
     
   return (
     !loggedIn ? 
@@ -95,6 +110,7 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
+            onChange={(e) => {setEmail(e.target.value)}}
             variant="outlined"
             margin="normal"
             required
@@ -106,6 +122,7 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+          onChange={(e) => {setPass(e.target.value)}}
             variant="outlined"
             margin="normal"
             required
@@ -116,6 +133,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
+          {msgError != null? <div>{msgError} </div>: <span></span>}
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="recordame"
@@ -131,6 +149,7 @@ export default function SignIn() {
            Ingresar con google
           </Button>
           <Button
+            onClick={loginUser}
             type="submit"
             fullWidth
             variant="contained"
@@ -142,7 +161,7 @@ export default function SignIn() {
           </div>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/resetPassword" variant="body2">
                 Olvidaste tu contraseña?
               </Link>
             </Grid>
@@ -158,11 +177,7 @@ export default function SignIn() {
         <Copyright />
       </Box>
     </Container> </div> : 
-   Swal.fire(
-    'Ya has iniciado sesion :D',
-     2000,
-    'success',
-      )
+  <span></span>
   
     );
   

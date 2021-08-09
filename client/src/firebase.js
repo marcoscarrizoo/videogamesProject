@@ -11,8 +11,14 @@ var firebaseConfig = {
   appId: "1:373127802701:web:bccc46be9bb2578af85104",
   measurementId: "G-RRX26EXYTB"
 };
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
+firebase.initializeApp(firebaseConfig); // Initialize Firebase
+let db = firebase.firestore()  // base de datos
+let auth = firebase.auth()    //auntenticacion
+
+export {auth}
+export {db}
+
 
   //iniciar sesion
   export function loginWithGoogle() {   
@@ -21,44 +27,14 @@ firebase.initializeApp(firebaseConfig);
       .then(snap =>snap.user)
 }
 
+export function loginUser() {
+  auth.signInWithEmailAndPassword()
+  
+  
+}
+
+
+
 //cerrar sesion 
 export function singOutGoogle() {
-    firebase.auth().signOut()
-    }
-
-//crear usuario con mail y contras
-// export function createUser() {
-//   let email = $('#email').val();
-//   let password =$('#password').val();
-
-//   firebase.auth().createUserWithEmailAndPassword(email, password)
-//   .then(function(data) {
-//     console.log(data)
-//     getUser() //cuando se crea el usuario, ejecuta esta function
-//   })
-//   .catch(function(error){
-//     console.log(error)
-//   })
-//   return false; //para que la pagina no se vuelva recarcar cuando haya error
-// }
-
-//function que detecta si existe o no existe usuario registrado
-//actualmente en la plataforma o en la sesion
-
-// export function getUser() {
-//   firebase.auth().onAuthStateChanged(function(user){
-//     if(user) {
-//       $('#access').hide();
-//       $('#logged').show()
-//     } else {
-//       $('#logged').hide();
-//       $('#access').show()
-//     }
-//   })
-// }
-
-let db = firebase.firestore()
-
-db.collection('favs').add({
-  first: 'matcos'
-})
+    firebase.auth().signOut()  }

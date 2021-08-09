@@ -9,6 +9,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import { red } from '@material-ui/core/colors';
+import styles from './carrouselStyles'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -41,30 +42,10 @@ const tutorialSteps = [
   },
 ];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: '100%',
-    flexGrow: 1,
-    background: '#141A32'
-    },
-  header: {
-    display: 'flex',
-    alignItems: 'center',
-    height: 0,
-    
-    
-  },
-  img: {
-    height: 500,
-    display: 'block',
-    //maxWidth: 15000,
-    
-    width: '100%',
-  },
-}));
+
 
 function SwipeableTextMobileStepper() {
-  const classes = useStyles();
+  const classes = styles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = tutorialSteps.length;

@@ -1,5 +1,5 @@
-.container {
-    display: grid;
+.container-home {
+    /* display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, auto);
 
@@ -8,10 +8,16 @@
     'slides slides slides '
     'home home home'
     'footer footer footer'
-    ;
+    ; */
+    
+    display: grid;
+    gap : 1rem;
+    grid-auto-rows: 22rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        
 }
 
-.navbar {
+/* .navbar {
     grid-area: navbar;
     background-color: aliceblue;
 }
@@ -38,4 +44,4 @@
         'home home home'  
     }
 }
-
+  */

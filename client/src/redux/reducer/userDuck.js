@@ -1,8 +1,9 @@
-import { loginWithGoogle, singOutGoogle} from '../../firebase'
+import { loginWithGoogle, singOutGoogle, UserLogin} from '../../firebase'
 
 
 //consts
-const LOGIN = 'LOGIN'
+const LOGIN_WITH_USER ='LOGIN_WITH_USER'
+const LOGIN_WITH_GOOGLE = 'LOGIN_WITH_GOOGLE'
 const LOGIN_SUCESS = 'LOGIN_SUCESS'
 const LOGIN_ERROR = ' LOGIN_ERROR'
 const LOG_OUT = 'LOG_OUT'
@@ -15,7 +16,12 @@ const initialState= {
 
 export default function reducer(state= initialState, action) {
   switch(action.type) {
-      case LOGIN:
+      case LOGIN_WITH_USER: 
+      return {
+          ...state,
+          fetching: true
+      }
+      case LOGIN_WITH_GOOGLE:
           return {
               ...state,
               fetching: true
@@ -45,12 +51,16 @@ export default function reducer(state= initialState, action) {
 
 //actions
 
+//userLogin 
+export let doUserLoginAction = () =>(dispatch, getState) => {
+       
+}
 
 //googleLogin
 export let doGoogleLoginAction =() =>(dispatch, getState) => {
     
     dispatch({
-        type: LOGIN
+        type: LOGIN_WITH_GOOGLE
     })
     return loginWithGoogle()
     .then(user => {

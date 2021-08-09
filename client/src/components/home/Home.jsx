@@ -2,35 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getVideogames } from "../../redux/reducer/gamesDuck";
 import VideoGames from "../videogames/VideoGames";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Container, Grid } from "@material-ui/core";
-import "./home.css";
-import Carrousel from "../carrousel/Carrousel";
-import NavBar from "../navBar/NavBar";
+import "./homeStyles.jsx";
 import Pagination from "@material-ui/lab/Pagination";
-import Footer from '../home/Footer'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      marginTop: theme.spacing(2),
-      
-    },
-    background: '#708090',
-    display: 'flex',
-    justifyContent: 'center',
-   
-  },
-  conteiner: {
-    display: 'grid',
-  gridTemplateColumns: 'repeat(5, 1fr)',
-  gridAutoRows: 'auto',
-  gridGap: '1rem',
-  }
-}));
+import styles from "./homeStyles";
+import './home.css'
 
 function Home() {
-  const classes = useStyles();
+  const classes = styles();
   const dispatch = useDispatch();
   const games = useSelector((store) => store.videogames.videogames);
 
@@ -40,6 +18,7 @@ function Home() {
 
   const handleChange = (event, value) => {
     setPage(value);
+    window.scrollTo(0, 0);
   };
   //setting items to paginate
   const last = page * gamesPerPage;
@@ -51,13 +30,8 @@ function Home() {
   }, [dispatch]);
 
   return (
-    <div>
-      <NavBar />
-      <Carrousel />
-      <div className={classes.conteiner}>
+    <div className='home-container'>
       {show.map((e) => (
-      
-        
         <VideoGames
           id={e.id}
           name={e.name}
@@ -65,11 +39,9 @@ function Home() {
           genres={e.genres}
           price={e.price}
         />
-      
       ))}
-      </div>
 
-      <div className={classes.root}>
+     
         <Pagination
           count={5}
           page={page}
@@ -77,8 +49,7 @@ function Home() {
           variant="outlined"
           color="primary"
         />
-      </div>
-     
+      
     </div>
   );
 }

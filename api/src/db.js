@@ -3,13 +3,31 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST,
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-});
+const sequelize =
+  process.env.NODE_ENV === "production"
+    ? //Si esta en produccion, sequelize se enlaza con la base de datos de heroku
+      new Sequelize(process.env.DATABASE_URL, {
+        dialect: "postgres",
+        protocol: "postgres",
+        dialectOptions: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
+      })
+    : //Si esta en desarrollo, sequelize se enlaza con la base de datos local.
+      // console.log('Prueba DATABASE_URL', process.env.DATABASE_URL);
+      new Sequelize(
+        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+        {
+          logging: false,
+          native: false,
+        }
+      );
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -30,12 +48,14 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {Games, Genres} = sequelize.models;
+const {Games, Genres, Favorites, User} = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 Games.belongsToMany(Genres ,{through: 'games_genres'})
 Genres.belongsToMany(Games ,{through: 'games_genres'})
+Favorites.belongsTo(User ,{through: 'favorites_user'})
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

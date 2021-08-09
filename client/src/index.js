@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
 import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux' // le da la posibilidad a los componentes de conectarse a la store
 

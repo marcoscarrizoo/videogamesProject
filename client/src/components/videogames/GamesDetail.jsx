@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getGameDetail, empty } from "../../redux/reducer/gamesDuck";
-import "./gamesDetail.css";
+import styles from './detailStyles'
 
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
-import { CardHeader, Button } from "@material-ui/core";
+import { CardHeader, Button, Container } from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -17,48 +17,30 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-    background: '#141A32',
-    boxShadow: '0 0 30px',
-    
-    
-  },
-  text: {
-    color: '#fafafa'
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-
- 
-  
-}));
+const parser = require('html-react-parser')
 
 const GamesDetail = () => {
-  const classes = useStyles();
+  const classes = styles();
   const [expanded, setExpanded] = React.useState(false);
-
+  
   const detail = useSelector((store) => store.videogames.videogamedetail);
+  
 
   let renderDetail;
   if (detail && detail.length) {
+    
     renderDetail = (
+    <div className={classes.container} style={{backgroundImage: `url(${detail[0].image})`, height:'100vh'}}>
+      
+      
+      <Card className={classes.card1}> 
+      <CardHeader className={classes.title} title={detail[0].name} />
 
-      <Card className={classes.root}>
-        
-        <CardHeader className={classes.text} title={detail[0].name} />
-        <CardMedia className={classes.media} image={detail[0].image} />
-        
-        
-          <Typography className={classes.text} variant="body2" color="textSecondary" component="p">
+      <Typography className={classes.text} variant="body2" color="textSecondary" component="p">
             {detail[0].description}
           </Typography>
-          <Typography className={classes.text} variant="h6" color="textSecondary" component="p">
-            {"plataformas: " + detail[0].platforms}
+      <Typography className={classes.text} variant="h6" color="textSecondary" component="p">
+            {"Plataformas: " + detail[0].platforms}
           </Typography>
           <Typography className={classes.text} variant="h6" color="textSecondary" component="p">
             {"Clasificacion: " + detail[0].rating}
@@ -66,14 +48,12 @@ const GamesDetail = () => {
           <Typography className={classes.text} variant="h6" color="textSecondary" component="p">
             {"Fecha de lanzamiento: " + detail[0].released}
           </Typography>
-        
-        
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon color='secondary'/>
-          </IconButton>
-          <Button className={classes.text} variant="outlined">COMPRAR</Button>
-        
+          
+          <Button className={classes.button} variant="contained" color='primary'>COMPRAR</Button>
+          <Button className={classes.button} variant="contained" color='secondary'>AGREGAR A FAVORITOS</Button>
       </Card>
+      </div> 
+     
     );
   } else {
     
